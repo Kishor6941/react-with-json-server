@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { deleteUser, getUserAPI } from "../../../services/user.api"
 import type { User } from "../../../models/user.Model"
 import { TiPencil } from "react-icons/ti";
@@ -17,6 +17,7 @@ const UserGrid = () => {
     const [allData, setAllData] = useState([])
     const [sort, setSort] = useState(true)
     const [inputVal, setInputVal] = useState('')
+    const navigate = useNavigate()
 
     async function getUsers() {
         setLoading(true)
@@ -69,6 +70,9 @@ const UserGrid = () => {
             setData(allData)
         }
     }
+    const editUser =(id:string | undefined) =>{
+            navigate('/edit-user/'+id)
+    }
     return (
         <div className="col-md-10 mt-4 mx-auto">
             <div className="col-md-6 mx-auto mb-2">
@@ -106,7 +110,7 @@ const UserGrid = () => {
                                 <td>{user?.email}</td>
                                 <td>{user?.address}</td>
                                 <td className="d-flex gap-4">
-                                    <span className="cursor-pointer"><TiPencil /></span>
+                                    <span className="cursor-pointer" onClick={() => editUser(user?.id)}><TiPencil /></span>
                                     <span className="cursor-pointer" onClick={() => removeUser(user?.id)}><FaRegTrashAlt /></span>
                                 </td>
                             </tr>

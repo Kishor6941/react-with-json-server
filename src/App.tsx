@@ -10,6 +10,7 @@ const App = () =>{
       <Routes>
         <Route path="/"  element={<UserGrid />} />
         <Route path="/add-user"  element={<AddEditUser />} />
+        <Route path="/edit-user/:id"  element={<AddEditUser />} />
       </Routes>
     </div>
   )

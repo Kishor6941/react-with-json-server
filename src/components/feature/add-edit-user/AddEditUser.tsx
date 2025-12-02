@@ -1,32 +1,91 @@
 import { useForm } from "react-hook-form"
 import type { User } from "../../../models/user.Model"
-import { createUser } from "../../../services/user.api"
+import { createUser, getUserById, updateUserById } from "../../../services/user.api"
 import { toast } from "react-toastify"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
+import { useEffect } from "react"
 
 const AddEditUser = () => {
 
-    const { register, handleSubmit, formState: { errors } } = useForm<User>({ mode: "onTouched",})
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm<User>({ mode: "onTouched", })
     const navigate = useNavigate()
+    const { id } = useParams()
 
-    async function addUser(data:User) {
+    /**
+     * 
+     * @param data Add User
+     */
+
+    async function addUser(data: User) {
         try {
-              await createUser(data)
-              toast.success('User created successfully')  
-              setTimeout(()=>{
-                    navigate('/')
-              },1000)
-        } catch(err:any) {
-                toast.error(err?.message || 'something went wrong')
+            await createUser(data)
+            toast.success('User created successfully')
+            setTimeout(() => {
+                navigate('/')
+            }, 500)
+        } catch (err: any) {
+            toast.error(err?.message || 'something went wrong')
         }
     }
 
-    const addOrEditUser = (data: User) => {
-        addUser(data)
+    /**
+     * 
+     * @param data Update User
+     */
+
+    async function updateUser(data: User) {
+        try {
+            await updateUserById(id, data)
+            toast.success('User updated successfully')
+            setTimeout(() => {
+                navigate('/')
+            }, 500)
+        } catch (err: any) {
+            toast.error(err?.message || 'something went wrong')
+        }
     }
+
+    /**
+     * 
+     * @param data add or update user
+     */
+
+    const addOrEditUser = (data: User) => {
+        if (id) {
+            updateUser(data)
+        } else {
+            addUser(data)
+        }
+    }
+
+    /**
+     *  get user by id and set the form values
+     */
+
+    const getUser = async () => {
+        try {
+            let response = await getUserById(id)
+            console.log(response?.data)
+            setValue('name', response?.data?.name)
+            setValue('email', response?.data?.email)
+            setValue('address', response?.data?.address)
+
+        } catch (error) {
+
+        }
+    }
+
+    /**
+     *  useEffect to get user by Id
+     */
+
+    useEffect(() => {
+        getUser()
+    }, [id])
+
     return (
         <div className="col-md-6 mx-auto mt-4">
-            <h2>Add Edit User</h2>
+            <h2>{!id ? 'Add' : 'Update'} User</h2>
             <form onSubmit={handleSubmit(addOrEditUser)}>
                 <div className="form-group mb-2">
                     <label >Name</label>
@@ -64,7 +123,7 @@ const AddEditUser = () => {
                         <small className="form-text text-danger">{errors?.address?.message}</small>
                     }
                 </div>
-                <button type="submit" className="btn btn-primary">Add User</button>
+                <button type="submit" className="btn btn-primary">{id ? 'Update' : 'Add'} User</button>
             </form>
         </div>
     )

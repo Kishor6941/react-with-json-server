@@ -13,3 +13,11 @@ export const getUserAPI = () => {
 export const deleteUser = (id:string | undefined) => {
     return axios.delete(`${API_Constant.userAPI}/${id}`)
 }
+
+export const getUserById = (id:string | undefined) => {
+    return axios.get(`${API_Constant.userAPI}/${id}`)
+}
+
+export const updateUserById = (id:string | undefined,payload:User) => {
+    return axios.put(`${API_Constant.userAPI}/${id}`,payload)
+}
