@@ -1,0 +1,22 @@
+{
+  "user": [
+    {
+      "id": "c03d",
+      "name": "Anil",
+      "email": "a@gmail.com",
+      "address": "Pune"
+    },
+    {
+      "id": "5bfd",
+      "name": "balaji",
+      "email": "balaji@gmail.com",
+      "address": "Ausa"
+    },
+    {
+      "id": "3e19",
+      "name": "Chetan",
+      "email": "chetan@gmail.com",
+      "address": "Mumbai"
+    }
+  ]
+}
