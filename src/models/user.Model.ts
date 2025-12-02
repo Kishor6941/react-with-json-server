@@ -5,3 +5,8 @@ export interface User{
     phoneNo : number,
     address : string
 }
+
+export interface PaginationPayload{
+    page : number,
+    setPage: React.Dispatch<React.SetStateAction<number>>;
+}

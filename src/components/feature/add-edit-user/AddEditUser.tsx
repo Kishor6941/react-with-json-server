@@ -70,8 +70,8 @@ const AddEditUser = () => {
             setValue('email', response?.data?.email)
             setValue('address', response?.data?.address)
 
-        } catch (error) {
-
+        } catch (error:any) {
+            toast.error(error?.message || 'something went wrong')
         }
     }
 
@@ -80,7 +80,9 @@ const AddEditUser = () => {
      */
 
     useEffect(() => {
-        getUser()
+        if(id) {
+            getUser()
+        }
     }, [id])
 
     return (

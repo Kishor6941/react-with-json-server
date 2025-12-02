@@ -9,6 +9,7 @@ import { FaArrowDown } from "react-icons/fa";
 
 import "./user-grid.scss"
 import { toast } from "react-toastify";
+import Pagination from "../../../pages/pagination/Pagination";
 
 const UserGrid = () => {
     const [data, setData] = useState([])
@@ -18,11 +19,14 @@ const UserGrid = () => {
     const [sort, setSort] = useState(true)
     const [inputVal, setInputVal] = useState('')
     const navigate = useNavigate()
+    const [page, setPage] = useState(1)
+    const [limit] = useState(5)
+    const [totalCount, setTotalCount] = useState(0)
 
     async function getUsers() {
         setLoading(true)
         try {
-            let response = await getUserAPI()
+            let response = await getUserAPI(page,limit)
             setData(response?.data.sort((a: User, b: User) => a.name.localeCompare(b.name)))
             setAllData(response?.data)
             setLoading(false)
@@ -37,7 +41,7 @@ const UserGrid = () => {
 
     useEffect(() => {
         getUsers()
-    }, [])
+    }, [page])
 
     const removeUser = async (id: string | undefined) => {
         try {
@@ -118,6 +122,11 @@ const UserGrid = () => {
                     }
                 </tbody>
             </table>
+            <div>
+                {
+                    data?.length ? <Pagination page={page} setPage={setPage} /> : ''
+                }
+            </div>
         </div>
     )
 }

@@ -6,18 +6,24 @@ export const createUser = (payload:User) => {
     return axios.post(API_Constant.userAPI,payload)
 }
 
-export const getUserAPI = () => {
-    return axios.get(API_Constant.userAPI)
+export const getUserAPI = (current:number,limit:number) => {
+    return axios.get(`${API_Constant.userAPI}?_page=${current}&_limit=${limit}`)
 }
 
 export const deleteUser = (id:string | undefined) => {
-    return axios.delete(`${API_Constant.userAPI}/${id}`)
+    if(id) {
+        return axios.delete(`${API_Constant.userAPI}/${id}`)
+    }
 }
 
 export const getUserById = (id:string | undefined) => {
-    return axios.get(`${API_Constant.userAPI}/${id}`)
+    if(id){
+        return axios.get(`${API_Constant.userAPI}/${id}`)
+    }
 }
 
 export const updateUserById = (id:string | undefined,payload:User) => {
-    return axios.put(`${API_Constant.userAPI}/${id}`,payload)
+    if(id){
+        return axios.put(`${API_Constant.userAPI}/${id}`,payload)
+    }
 }
